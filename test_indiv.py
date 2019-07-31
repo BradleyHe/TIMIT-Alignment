@@ -9,8 +9,8 @@ import editdistance
 
 data_type = 'float32'
 
-mean_val = np.loadtxt('mean_val.txt')
-std_val = np.loadtxt('std_val.txt')
+mean_val = np.loadtxt('config/mean_val.txt')
+std_val = np.loadtxt('config/std_val.txt')
 
 x, y = preprocess_dataset('TIMIT/TEST/DR1/FAKS0/SA2.PHN')
 
