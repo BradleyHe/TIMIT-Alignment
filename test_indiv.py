@@ -7,18 +7,29 @@ import torch
 import yaml
 import editdistance
 
+def adjust_phone(list):
+	#remove closing sounds
+	while 'h#' in list: list.remove('h#')
+
+	#all upper
+	list = [x.upper() for x in list]
+
+	#add stress numbers for vowels
+	vowel = 'AEIOU'
+	list = [x + '1' if x[0] in vowel else x for x in list]
+
+	#convert timit-specific phonemes to phonemes recognized by the speech aligner
+	return ['T' if x == 'DX' else x for x in list]
+	
 data_type = 'float32'
 
 mean_val = np.loadtxt('config/mean_val.txt')
 std_val = np.loadtxt('config/std_val.txt')
 
-x, y = preprocess_dataset('TIMIT/TEST/DR1/FAKS0/SA2.PHN')
+x, y = preprocess_dataset('TIMIT/TEST/DR1/FAKS0/SA1.PHN')
 
 x = normalize(x, mean_val, std_val)
 x = set_type(x, data_type)
-
-with open('test.pkl', 'wb') as cPickle_file:
-    cPickle.dump([x, y], cPickle_file, protocol=cPickle.HIGHEST_PROTOCOL)
 
 config_path = 'config/las_example_config.yaml'
 conf = yaml.load(open(config_path,'r'))
@@ -30,5 +41,16 @@ optimizer = torch.optim.Adam([{'params':listener.parameters()}, {'params':spelle
 
 for batch_index,(batch_data,batch_label) in enumerate(test_set):
 	pred,true = test_file(batch_data, batch_label, listener, speller, optimizer, **conf['model_parameter'])
-	print(pred)
-	print(true)
+
+	pred = list(pred)
+	pred  = adjust_phone(pred)
+
+	str = 'WORD '
+
+	for x in pred:
+		str += x + ' '
+
+	f = open('SA1dict.txt', 'w+')
+	f.write(str)
+	f.close()
+
