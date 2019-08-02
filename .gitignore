@@ -4,3 +4,4 @@ __pycache__/
 TIMIT/
 *.pkl
 log/
+montreal-forced-aligner/

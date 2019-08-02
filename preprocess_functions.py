@@ -11,24 +11,6 @@ import scipy.io.wavfile as wav
 import python_speech_features as features
 # a python package for speech features at https://github.com/jameslyons/python_speech_features
 
-
-
-##### SCRIPT META VARIABLES #####
-phn_file_postfix = '.PHN'
-RIFF_wav_postfix = '.wav'
-
-##### Validation split #####
-# default using 5% of data as validation
-val_split 	= 0.05 
-
-
-data_type = 'float32'
-
-paths = 'TIMIT'
-train_source_path	= os.path.join(paths, 'TRAIN')
-test_source_path	= os.path.join(paths, 'TEST_9_MF')
-target_path	= 'timit_mfcc_39'
-
 # 61 different phonemes
 phonemes = ["b", "bcl", "d", "dcl", "g", "gcl", "p", "pcl", "t", "tcl", "k", "kcl", "dx", "q", "jh", "ch", "s", "sh", "z", "zh", 
 	"f", "th", "v", "dh", "m", "n", "ng", "em", "en", "eng", "nx", "l", "r", "w", "y", 
@@ -36,7 +18,6 @@ phonemes = ["b", "bcl", "d", "dcl", "g", "gcl", "p", "pcl", "t", "tcl", "k", "kc
 	"ow", "uh", "uw", "ux", "er", "ax", "ix", "axr", "ax-h", "pau", "epi", "h#"]
 
 phonemes2index = {k:v for v,k in enumerate(phonemes)}
-
 
 def get_total_duration(file):
 	"""Get the length of the phoneme file, i.e. the 'time stamp' of the last phoneme"""
@@ -92,7 +73,7 @@ def preprocess_dataset(fname):
 	Y = []
 
 	phn_fname = fname
-	wav_fname = fname[0:-4] + RIFF_wav_postfix
+	wav_fname = fname[0:-4] + '.wav'
 
 	total_duration = get_total_duration(phn_fname)
 	fr = open(phn_fname)
