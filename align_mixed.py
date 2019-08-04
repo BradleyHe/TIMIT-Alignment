@@ -72,7 +72,9 @@ def generate_dict(path):
 def align_mixed(file1, file2):
 	f1name = file1.split('/')[-1]
 	f2name = file2.split('/')[-1]
-	mix_fname = os.path.join(bin_path, 'mixed', f1name[:-4] + '_' + f2name[:-4], f1name[:-4] + '_' + f2name)
+	f1speaker = file1.split('/')[-2]
+	f2speaker = file2.split('/')[-2]
+	mix_fname = os.path.join(bin_path, 'mixed', f1speaker + '_' + f2speaker, f1name[:-4] + '_' + f2name)
 
 	tfn = sox.Transformer()
 	tfn.silence(location=-1)
@@ -87,7 +89,7 @@ def align_mixed(file1, file2):
 	rms2 = sox.file_info.stat(file2)['RMS     amplitude']
 	factor = tir_factor(0, rms1, rms2)
 
-	os.makedirs(os.path.join(bin_path, 'mixed', f1name[:-4] + '_' + f2name[:-4]), exist_ok=True)
+	os.makedirs(os.path.join(bin_path, 'mixed', f1speaker + '_' + f2speaker), exist_ok=True)
 
 	if len1 < len2:		
 		tfn.trim(0, len1)
@@ -112,7 +114,7 @@ def align_mixed(file1, file2):
 		f.write('WORD')
 
 	os.makedirs(os.path.join(bin_path, 'mixed', 'aligned'), exist_ok=True)
-	subprocess.run([os.path.join('./', bin_path, 'mfa_align'), '-v', os.path.join(bin_path, 'mixed', f1name[:-4] + '_' + f2name[:-4]), 
-										 mix_fname[:-4] + '.dict', 'english', os.path.join(bin_path, 'mixed', 'aligned')])
+	subprocess.run([os.path.join('./', bin_path, 'mfa_align'), os.path.join(bin_path, 'mixed', f1speaker + '_' + f2speaker), 
+										 mix_fname[:-4] + '.dict', 'english', os.path.join(bin_path, 'mixed', 'aligned', f1speaker + '_' + f2speaker)])
 
 align_mixed(bin_path + '/TIMIT/TEST/DR1/FAKS0/SA1.wav', bin_path + '/TIMIT/TEST/DR1/FAKS0/SA2.wav')
