@@ -8,7 +8,7 @@ source_path = os.path.join(bin_path,  'TIMIT', 'TEST')
 for dirName, subdirList, fileList in os.walk(source_path):
 	for file in fileList:
 		# comment out if you want to keep these files, but they are not needed for preprocessing
-		if file.endswith('.WAV') or file.endswith('.PHN') or file.endswith('WRD'):
+		if file.endswith('.WAV') or file.endswith('WRD'):
 			os.remove(dirName + '/' + file)
 			continue
 
