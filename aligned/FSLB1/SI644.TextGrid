@@ -1,0 +1,136 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0.0
+xmax = 2.521625
+tiers? <exists>
+size = 2
+item []:
+	item [1]:
+		class = "IntervalTier"
+		name = "words"
+		xmin = 0.0
+		xmax = 2.521625
+		intervals: size = 9
+			intervals [1]:
+				xmin = 0.0
+				xmax = 0.090
+				text = ""
+			intervals [2]:
+				xmin = 0.090
+				xmax = 0.460
+				text = "all"
+			intervals [3]:
+				xmin = 0.460
+				xmax = 0.580
+				text = "are"
+			intervals [4]:
+				xmin = 0.580
+				xmax = 0.900
+				text = "well"
+			intervals [5]:
+				xmin = 0.900
+				xmax = 1.310
+				text = "written"
+			intervals [6]:
+				xmin = 1.310
+				xmax = 1.550
+				text = "and"
+			intervals [7]:
+				xmin = 1.550
+				xmax = 1.690
+				text = "are"
+			intervals [8]:
+				xmin = 1.690
+				xmax = 2.390
+				text = "<unk>"
+			intervals [9]:
+				xmin = 2.390
+				xmax = 2.521625
+				text = ""
+	item [2]:
+		class = "IntervalTier"
+		name = "phones"
+		xmin = 0.0
+		xmax = 2.521625
+		intervals: size = 20
+			intervals [1]:
+				xmin = 0.000
+				xmax = 0.090
+				text = "sil"
+			intervals [2]:
+				xmin = 0.090
+				xmax = 0.330
+				text = "AO1"
+			intervals [3]:
+				xmin = 0.330
+				xmax = 0.460
+				text = "L"
+			intervals [4]:
+				xmin = 0.460
+				xmax = 0.510
+				text = "AA1"
+			intervals [5]:
+				xmin = 0.510
+				xmax = 0.580
+				text = "R"
+			intervals [6]:
+				xmin = 0.580
+				xmax = 0.700
+				text = "W"
+			intervals [7]:
+				xmin = 0.700
+				xmax = 0.800
+				text = "EH1"
+			intervals [8]:
+				xmin = 0.800
+				xmax = 0.900
+				text = "L"
+			intervals [9]:
+				xmin = 0.900
+				xmax = 0.980
+				text = "R"
+			intervals [10]:
+				xmin = 0.980
+				xmax = 1.090
+				text = "IH1"
+			intervals [11]:
+				xmin = 1.090
+				xmax = 1.130
+				text = "T"
+			intervals [12]:
+				xmin = 1.130
+				xmax = 1.160
+				text = "AH0"
+			intervals [13]:
+				xmin = 1.160
+				xmax = 1.310
+				text = "N"
+			intervals [14]:
+				xmin = 1.310
+				xmax = 1.450
+				text = "AE1"
+			intervals [15]:
+				xmin = 1.450
+				xmax = 1.490
+				text = "N"
+			intervals [16]:
+				xmin = 1.490
+				xmax = 1.550
+				text = "D"
+			intervals [17]:
+				xmin = 1.550
+				xmax = 1.690
+				text = "ER0"
+			intervals [18]:
+				xmin = 1.690
+				xmax = 2.390
+				text = "spn"
+			intervals [19]:
+				xmin = 2.390
+				xmax = 2.500
+				text = "sp"
+			intervals [20]:
+				xmin = 2.500
+				xmax = 2.521625
+				text = ""
