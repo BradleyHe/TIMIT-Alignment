@@ -30,7 +30,7 @@ for dialect in os.listdir(source_path):
 		os.makedirs(output, exist_ok=True)
 
 		subprocess.run([os.path.join('./', bin_path, 'mfa_align'), os.path.join(source_path, dialect, speaker), 
-										os.path.join(bin_path, 'libridict.txt'), 'english', output])
+										os.path.join(bin_path, 'librispeech-lexicon.txt'), 'english', output])
 
 		
 
