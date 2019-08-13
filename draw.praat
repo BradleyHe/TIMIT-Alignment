@@ -4,10 +4,8 @@
 form Draw annotated Sound and Pitch...
   real left_Time_range_(s)        0
   real right_Time_range_(s)       0 (= all)
-  real left_Vertical_range        0
-  real right_Vertical_range       0 (= auto)
-  real left_Frequency_range_(Hz)  0
-  real right_Frequency_range_(Hz) 500
+  real left_Vertical_range        -0.25
+  real right_Vertical_range       0.25 (= auto)
   optionmenu Sound_drawing_method: 1
     option Curve
     option Bars
@@ -17,7 +15,7 @@ form Draw annotated Sound and Pitch...
   boolean Use_text_styles yes
   boolean Garnish yes
   comment What proportion of the graph should be used for the Sound?
-  positive Figure_ratio 0.5
+  positive Figure_ratio 0.386
 endform
 
 # Get information on current picture
@@ -38,10 +36,6 @@ sound.end     = right_Time_range
 sound.min     = left_Vertical_range
 sound.max     = right_Vertical_range
 sound.method$ = sound_drawing_method$
-# Pitch options
-pitch.min     = left_Frequency_range
-pitch.max     = right_Frequency_range
-pitch.created = 0
 
 # Draw options
 fzero.colour$      = "Cyan"
@@ -55,15 +49,6 @@ precision          = 3
 # If no Pitch object is selected, generate one
 sound = selected("Sound")
 textgrid = selected("TextGrid")
-if numberOfSelected("Pitch")
-  pitch = selected("Pitch")
-else
-  selectObject: sound
-  pitch = To Pitch: 0,
-    ... if !pitch.min then 75  else pitch.min fi,
-    ... if !pitch.max then 600 else pitch.max fi
-  pitch.created = 1
-endif
 
 # Identify ranges for sound
 selectObject: sound
@@ -120,25 +105,6 @@ if show_boundaries
   endfor
 endif
 
-# Draw pitch, above boundaries
-selectObject: pitch
-if fzero.border
-  Line width: fzero.width + fzero.border_width
-  White
-  Draw: sound.start, sound.end, pitch.min, pitch.max, "no"
-endif
-Line width: fzero.width
-Colour: fzero.colour$
-Draw: sound.start, sound.end, pitch.min, pitch.max, "no"
-Line width: 1
-
-# Garnish pitch
-if garnish
-  One mark right: pitch.min, "yes", "yes", "no", ""
-  One mark right: pitch.max, "no", "yes", "no", fixed$(pitch.max, 0)
-  Text right: "yes", "Pitch (Hz)"
-endif
-
 # Return to original colour
 Colour: "{" +
   ... original_colour.r$ + "," +
@@ -156,48 +122,6 @@ if 1 - figure_ratio
   # Adjust vertical axis
   Axes: sound.start, sound.end, 1, 0
 
-  # Draw TextGrid
-  # A custom draw method is needed to ensure that the TextGrid is
-  # drawn using only the part of the figure specified by the user
-  selectObject: textgrid_part
-  for tier to total_tiers
-    tier.bottom = tier * tier.height
-    tier.top = tier.bottom - tier.height
-    tier.middle = tier.top + (tier.height / 2)
-    if garnish and tier < total_tiers
-      Draw line: sound.start, tier.bottom, sound.end, tier.bottom
-    endif
-
-    interval_tier = Is interval tier: tier
-    item$ = if interval_tier then "interval" else "point" fi
-    total_items = do("Get number of " + item$ + "s...", tier)
-      for item to total_items
-        if interval_tier
-          time = Get end point: tier, item
-          start = Get starting point: tier, item
-          midpoint = start + ((time - start) / 2)
-          if garnish
-            Draw line: time, tier.bottom, time, tier.top
-          endif
-        else
-          time = Get time of point: tier, item
-          midpoint = time
-          if garnish
-            Draw line: time, tier.top, time, tier.top + tier.height * point.marker_size
-            Draw line: time, tier.bottom, time, tier.bottom - tier.height * point.marker_size
-          endif
-        endif
-
-        label$ = do$("Get label of " + item$ + "...", tier, item)
-        if !use_text_styles
-          label$ = replace$(label$, "\", "\bs", 0)
-          label$ = replace_regex$(label$, "([%#^_])", "\\\1 ", 0)
-        endif
-        Text: midpoint, "Centre", tier.middle, "Half", label$
-      endfor
-  endfor
-endif
-removeObject: textgrid_part
 
 # Select the full viewport
 Select inner viewport:
@@ -217,10 +141,3 @@ endif
 # Re-select original objects
 selectObject: sound, textgrid
 
-# Remove Pitch object if it was created by us
-# or add it to selection
-if pitch.created
-  nocheck removeObject: pitch
-else
-  plusObject: pitch
-endif

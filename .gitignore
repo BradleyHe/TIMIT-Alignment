@@ -5,3 +5,4 @@ TIMIT/
 *.pkl
 log/
 montreal-forced-aligner/
+praat

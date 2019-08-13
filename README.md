@@ -8,4 +8,4 @@ Since there seems to be a problem with the montreal forced aligner not working o
 - Place montreal forced aligner folder in this directory
 - Move the TIMIT directory to montreal-forced-aligner/bin
 - Download the [LibriSpeech lexicon](http://www.openslr.org/resources/11/librispeech-lexicon.txt) and place it in montreal-forced-aligner/bin
-- Run align_timit.py to generate alignments of all test files
+- Depending on what you want to do, you can run align_timit.py to generate TextGrid alignments of all test files, or you can run gen_timit_alignment.py to convert TIMIT phoneme files to a TextGrid format.
