@@ -11,11 +11,11 @@ form Draw annotated Sound and Pitch...
     option Bars
     option Poles
     option Speckles
-  boolean Show_boundaries yes
+  boolean Show_boundaries no
   boolean Use_text_styles yes
   boolean Garnish yes
   comment What proportion of the graph should be used for the Sound?
-  positive Figure_ratio 0.386
+  positive Figure_ratio 0.55
 endform
 
 # Get information on current picture
@@ -73,16 +73,6 @@ Select inner viewport:
 selectObject: sound
 Draw: sound.start, sound.end, sound.min, sound.max, "no", sound.method$
 
-# Garnish sound
-if garnish
-  Draw line: sound.start, sound.min, sound.end, sound.min
-  if sound.min < 0 and sound.max > 0
-    One mark left: 0, "yes", "yes", "no", ""
-  endif
-  One mark left: sound.min, "no", "yes", "no", fixed$(sound.min, precision)
-  One mark left: sound.max, "no", "yes", "no", fixed$(sound.max, precision)
-endif
-
 # Extract range from TextGrid object
 selectObject: textgrid
 textgrid_part = Extract part: sound.start, sound.end, "yes"
@@ -131,13 +121,25 @@ Select inner viewport:
   ... picture.bottom
 
 # Finish garnish
-if garnish
   Draw inner box
   One mark bottom: sound.start, "no", "yes", "no", fixed$(sound.start, precision)
   One mark bottom: sound.end,   "no", "yes", "no", fixed$(sound.end,   precision)
   Text bottom: "yes", "Time (s)"
-endif
 
 # Re-select original objects
 selectObject: sound, textgrid
 
+#configured to draw text with 4 inch height and 0.55 ratio
+
+Select outer viewport: 0.4, 1.4, 1, 1.5
+Text: 0, "centre", 0, "Half", "Audio waveform of"
+Text special: 0, "Centre", 1.5, "Half", "Times", 10, "0", "voice #1 and #2 mixed"
+
+Select outer viewport: 0.3, 1.3, 2, 2.5
+Text bottom: "yes", "Voice #1 alignment"
+
+Select outer viewport: 0.3, 1.3, 2.5, 3
+Text bottom: "yes", "Voice #2 alignment"
+
+Select outer viewport: 0.3, 1.3, 3, 3.5
+Text bottom: "yes", "Predicted alignment"

@@ -10,6 +10,7 @@ import os
 import sox
 import subprocess
 import shutil
+import sys
 
 bin_path = os.path.join('montreal-forced-aligner', 'bin')
 
@@ -117,4 +118,7 @@ def align_mixed(file1, file2):
 	subprocess.run([os.path.join('./', bin_path, 'mfa_align'), os.path.join(bin_path, 'mixed', f1speaker + '_' + f2speaker), 
 										 mix_fname[:-4] + '.dict', 'english', os.path.join(bin_path, 'mixed', 'aligned', f1speaker + '_' + f2speaker)])
 
-align_mixed(bin_path + '/TIMIT/TEST/DR1/FAKS0/SA1.wav', bin_path + '/TIMIT/TEST/DR1/FAKS0/SA2.wav')
+if len(sys.argv) != 3:
+	print('Usage: python3 align_mixed.py [dialect1]/[speaker1]/[.wav name] [dialect2]/[speaker2]/[.wav name]')
+
+align_mixed(bin_path + '/TIMIT/TEST/' + sys.argv[1], bin_path + '/TIMIT/TEST/' + sys.argv[2])
