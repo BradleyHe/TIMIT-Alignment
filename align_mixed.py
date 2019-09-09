@@ -70,12 +70,12 @@ def generate_dict(path):
 			f.write(str)
 			f.close()
 
-def align_mixed(file1, file2):
+def align_mixed(file1, file2, tir):
 	f1name = file1.split('/')[-1]
 	f2name = file2.split('/')[-1]
 	f1speaker = file1.split('/')[-2]
 	f2speaker = file2.split('/')[-2]
-	mix_fname = os.path.join(bin_path, 'mixed', f1speaker + '_' + f2speaker, f1name[:-4] + '_' + f2name)
+	mix_fname = os.path.join(bin_path, 'mixed', f1speaker + '_' + f2speaker + '_' + str(tir), f1name[:-4] + '_' + f2name)
 
 	tfn = sox.Transformer()
 	tfn.silence(location=-1)
@@ -88,9 +88,9 @@ def align_mixed(file1, file2):
 
 	rms1 = sox.file_info.stat(file1)['RMS     amplitude']
 	rms2 = sox.file_info.stat(file2)['RMS     amplitude']
-	factor = tir_factor(0, rms1, rms2)
+	factor = tir_factor(tir, rms1, rms2)
 
-	os.makedirs(os.path.join(bin_path, 'mixed', f1speaker + '_' + f2speaker), exist_ok=True)
+	os.makedirs(os.path.join(bin_path, 'mixed', f1speaker + '_' + f2speaker + '_' + str(tir)), exist_ok=True)
 
 	if len1 < len2:		
 		tfn.trim(0, len1)
@@ -115,10 +115,10 @@ def align_mixed(file1, file2):
 		f.write('WORD')
 
 	os.makedirs(os.path.join(bin_path, 'mixed', 'aligned'), exist_ok=True)
-	subprocess.run([os.path.join('./', bin_path, 'mfa_align'), os.path.join(bin_path, 'mixed', f1speaker + '_' + f2speaker), 
-										 mix_fname[:-4] + '.dict', 'english', os.path.join(bin_path, 'mixed', 'aligned', f1speaker + '_' + f2speaker)])
+	subprocess.run([os.path.join('./', bin_path, 'mfa_align'), os.path.join(bin_path, 'mixed', f1speaker + '_' + f2speaker + '_' + str(tir)), 
+										 mix_fname[:-4] + '.dict', 'english', os.path.join(bin_path, 'mixed', 'aligned', f1speaker + '_' + f2speaker + '_' + str(tir))])
 
-if len(sys.argv) != 3:
-	print('Usage: python3 align_mixed.py [dialect1]/[speaker1]/[.wav name] [dialect2]/[speaker2]/[.wav name]')
+if len(sys.argv) != 4:
+	print('Usage: python3 align_mixed.py [dialect1]/[speaker1]/[.wav name] [dialect2]/[speaker2]/[.wav name] [TIR]')
 
-align_mixed(bin_path + '/TIMIT/TEST/' + sys.argv[1], bin_path + '/TIMIT/TEST/' + sys.argv[2])
+align_mixed(bin_path + '/TIMIT/TEST/' + sys.argv[1], bin_path + '/TIMIT/TEST/' + sys.argv[2], int(sys.argv[3]))

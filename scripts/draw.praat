@@ -18,6 +18,7 @@ form Draw annotated Sound and Pitch...
   positive Figure_ratio 0.55
 endform
 
+Select outer viewport: 0, 8.5, 0, 3.5
 # Get information on current picture
 info$ = Picture info
 original_colour.r$ = extractWord$(info$,  "Red:")
@@ -46,7 +47,6 @@ point.marker_size  = 0.1
 precision          = 3
 
 # Identify objects
-# If no Pitch object is selected, generate one
 sound = selected("Sound")
 textgrid = selected("TextGrid")
 
@@ -78,7 +78,7 @@ selectObject: textgrid
 textgrid_part = Extract part: sound.start, sound.end, "yes"
 total_tiers = Get number of tiers
 tier.height = 1 / total_tiers
-
+removeObject: textgrid_part
 # Draw boundaries (on Sound and Pitch)
 if show_boundaries
   for tier to total_tiers
@@ -126,20 +126,15 @@ Select inner viewport:
   One mark bottom: sound.end,   "no", "yes", "no", fixed$(sound.end,   precision)
   Text bottom: "yes", "Time (s)"
 
-# Re-select original objects
-selectObject: sound, textgrid
+#configured to draw text with 3.5 inch height and 0.55 ratio
+Select outer viewport: 0, 0.5, 0.74, 1.24
+Text bottom: "yes", "#1"
 
-#configured to draw text with 4 inch height and 0.55 ratio
+Select outer viewport: 0, 0.5, 1.55, 2.05
+Text bottom: "yes", "#2"
 
-Select outer viewport: 0.4, 1.4, 1, 1.5
-Text: 0, "centre", 0, "Half", "Audio waveform of"
-Text special: 0, "Centre", 1.5, "Half", "Times", 10, "0", "voice #1 and #2 mixed"
+Select outer viewport: 0, 0.5, 2.05, 2.55
+Text bottom: "yes", "#3"
 
-Select outer viewport: 0.3, 1.3, 2, 2.5
-Text bottom: "yes", "Voice #1 alignment"
-
-Select outer viewport: 0.3, 1.3, 2.5, 3
-Text bottom: "yes", "Voice #2 alignment"
-
-Select outer viewport: 0.3, 1.3, 3, 3.5
-Text bottom: "yes", "Predicted alignment"
+Select outer viewport: 0, 0.5, 2.55, 3.05
+Text bottom: "yes", "#4"
