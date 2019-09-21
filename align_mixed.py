@@ -1,5 +1,5 @@
 import numpy as np
-from preprocess_functions import preprocess_dataset,normalize,set_type
+from util.preprocess_functions import preprocess_dataset,normalize,set_type
 from util.timit_dataset import create_dataloader
 from util.functions import test_file
 from six.moves import cPickle 
